@@ -3,6 +3,7 @@ var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var cors = require("cors");
+var path = require("path");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -80,6 +81,11 @@ app.delete("/api/todos/:id", function(request, response) {
       response.sendStatus(200);
     }
   });
+});
+
+// Main page
+app.get("/", function(request, response) {
+  response.sendFile(path.join(__dirname + "/main.html"));
 });
 
 var port = 3000;
