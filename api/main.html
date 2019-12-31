@@ -8,7 +8,6 @@
       table {
         margin-top: 20px;
       }
-      
     </style>
 
     <!-- Bootstrap -->
@@ -25,12 +24,6 @@
     <div class="container">
       <!-- Input form -->
 
-      <!-- <form method="POST">
-        <br />
-        Title: <input type="text" name="title" /><br />
-        Content: <input type="text" name="content" /><br />
-        <input type="submit" />
-      </form> -->
       Title:
       <input type="text" name="title" />
       <br />
@@ -41,25 +34,21 @@
         <button id="test-button">Push me!</button>
       </div>
 
-    
-
-    <!-- Table with todos -->
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          
-          <th scope="col">Title</th>
-          <th scope="col">Content</th>
-          
-        </tr>
-      </thead>
-      <tbody id="todoTable">
-      </tbody>
-    </table>
+      <!-- Table with todos -->
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Content</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="todoTable"></tbody>
+      </table>
+    </div>
 
     <!-- JavaScript -->
     <script>
-      
       // Get all todos and add to table
       fetch("http://127.0.0.1:3000/api/todos")
         .then(response => response.json())
@@ -67,22 +56,40 @@
           response.forEach(function(todo) {
             console.log(todo);
             let todoTr = document.createElement("tr");
-            
+
+            //Title
             let todoTitle = document.createElement("td");
             todoTitle.append(document.createTextNode(todo.title));
             todoTr.append(todoTitle);
 
+            //Content
             let todoContent = document.createElement("td");
             todoContent.append(document.createTextNode(todo.content));
             todoTr.append(todoContent);
 
+            //Action
+            let todoAction = document.createElement("td");
+            let deleteButton = document.createElement("button");
+            deleteButton.id = todo._id;
+            deleteButton.setAttribute("class", "btn btn-danger deleteButton");
+            deleteButton.innerText = "Delete";
+            deleteButton.addEventListener("click", function() {
+              console.log(this.id);
+              //Send delete request
+              fetch("http://127.0.0.1:3000/api/todos/" + this.id, {
+                method: "DELETE"
+              });
+              // Refresh page
+              location.reload();
+            });
+
+            todoTr.append(deleteButton);
+
             //Add to table
             document.getElementById("todoTable").append(todoTr);
+          });
+        });
 
-
-          })
-        })
-      
       // The test button
       let testBtn = document.getElementById("test-button");
 
