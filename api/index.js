@@ -6,7 +6,8 @@ var cors = require("cors");
 var path = require("path");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 
 mongoose.connect("mongodb://localhost:27017/todoapp", { urlNewParser: true });
@@ -47,13 +48,16 @@ app.post("/api/todos", function(request, response) {
     if (err) {
       console.log(err);
     } else {
-      response.status(200).send("Success!");
+      console.log(request.body);
+      response.status(200).send(request.body);
     }
   });
 });
 
 //PUT
 app.put("/api/todos/:id", function(request, response) {
+  console.log(request.body.title);
+  console.log(request.body.content);
   Todo.findById(request.params.id, function(err, todo) {
     if (err) {
       console.log(err);
@@ -81,6 +85,11 @@ app.delete("/api/todos/:id", function(request, response) {
       response.sendStatus(200);
     }
   });
+});
+
+//Edit page
+app.get("/edit/:id", function(request, response) {
+  response.sendFile(path.join(__dirname + "/edit.html"));
 });
 
 // Main page

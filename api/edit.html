@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Edit Todo</title>
+  </head>
+  <body>
+    <h1>Edit</h1>
+    Title:<input id="titleField" type="text" name="title" /> <br />
+    Content:<input id="contentField" type="text" name="content" />
+    <div>
+      <button id="submit-button">Submit</button>
+    </div>
+
+    <script>
+      console.log("test");
+      let submitButton = document.getElementById("submit-button");
+      let urlId = window.location.href.split("/")[4];
+
+      submitButton.addEventListener("click", function() {
+        let titleField = document.getElementById("titleField").value;
+        let contentField = document.getElementById("contentField").value;
+
+        fetch("http://127.0.0.1:3000/api/todos/" + urlId, {
+          method: "PUT",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            title: titleField,
+            content: contentField
+          })
+        });
+        window.location.href = "http://127.0.0.1:3000/";
+      });
+    </script>
+  </body>
+</html>

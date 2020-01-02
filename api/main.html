@@ -8,6 +8,9 @@
       table {
         margin-top: 20px;
       }
+      .editButton {
+        margin-right: 5px;
+      }
     </style>
 
     <!-- Bootstrap -->
@@ -25,10 +28,10 @@
       <!-- Input form -->
 
       Title:
-      <input type="text" name="title" />
+      <input id="titleField" type="text" name="title" />
       <br />
       Content:
-      <input type="text" name="content" />
+      <input id="contentField" type="text" name="content" />
 
       <div>
         <button id="test-button">Push me!</button>
@@ -54,7 +57,7 @@
         .then(response => response.json())
         .then(response => {
           response.forEach(function(todo) {
-            console.log(todo);
+            // console.log(todo);
             let todoTr = document.createElement("tr");
 
             //Title
@@ -69,10 +72,24 @@
 
             //Action
             let todoAction = document.createElement("td");
+
+            //Edit Button
+            let editButton = document.createElement("button");
+            editButton.id = todo._id;
+            editButton.setAttribute("class", "btn btn-primary editButton");
+            editButton.innerText = "Edit";
+            //Event listener for api
+            editButton.addEventListener("click", function() {
+              window.location.href = "http://127.0.0.1:3000/edit/" + todo._id;
+            });
+            todoTr.append(editButton);
+
+            //Delete Button
             let deleteButton = document.createElement("button");
             deleteButton.id = todo._id;
             deleteButton.setAttribute("class", "btn btn-danger deleteButton");
             deleteButton.innerText = "Delete";
+            // Event listener to send to api
             deleteButton.addEventListener("click", function() {
               console.log(this.id);
               //Send delete request
@@ -101,8 +118,30 @@
           .then(response => response.json())
           .then(resJson => console.log(resJson));
       }
+      // Adding a todo
+      testBtn.addEventListener("click", function() {
+        let titleField = document.getElementById("titleField").value;
+        let contentField = document.getElementById("contentField").value;
 
-      testBtn.addEventListener("click", fetchJson);
+        //complete this if statement
+        if (titleField == "") {
+          console.log("null");
+        } else {
+          fetch("http://127.0.0.1:3000/api/todos", {
+            method: "POST",
+            headers: {
+              Accept: "application/json, text/plain, */*",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              title: titleField,
+              content: contentField
+            })
+          });
+
+          location.reload();
+        }
+      });
     </script>
   </body>
 </html>
