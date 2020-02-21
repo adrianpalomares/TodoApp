@@ -10,7 +10,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/todoapp", { urlNewParser: true });
+// Setting mongoose url
+const mongooseUrl = process.env.MONGODB_URL || "mongodb://localhost:27017/todoapp";
+
+mongoose.connect(mongooseUrl, { urlNewParser: true });
 
 //Todo Schema
 const Todo = mongoose.model("todos", {
@@ -97,7 +100,7 @@ app.get("/", function(request, response) {
   response.sendFile(path.join(__dirname + "/main.html"));
 });
 
-var port = 3000;
+var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log(`Listening on port: ${port}`);
 });
