@@ -1,5 +1,8 @@
 # Git ignore file
-
+.gitignore
 # Ignore mockups folder
 mockups
-
+#node modules
+node_modules
+#package lock
+package-lock.json
