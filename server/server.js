@@ -16,7 +16,7 @@ app.use(routes);
 
 //Edit page
 app.get("/edit/:id", function(request, response) {
-  response.sendFile(path.join(__dirname + "/edit.html"));
+  response.sendFile(path.join(__dirname + "/../client/edit.html"));
 });
 
 // Main page

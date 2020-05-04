@@ -53,7 +53,7 @@
     <!-- JavaScript -->
     <script>
       // Get all todos and add to table
-      fetch("http://127.0.0.1:3000/api/todos")
+      fetch("api/todos")
         .then(response => response.json())
         .then(response => {
           response.forEach(function(todo) {
@@ -80,7 +80,8 @@
             editButton.innerText = "Edit";
             //Event listener for api
             editButton.addEventListener("click", function() {
-              window.location.href = "http://127.0.0.1:3000/edit/" + todo._id;
+              
+              window.location.href = "edit/" + todo._id;
             });
             todoTr.append(editButton);
 
@@ -93,7 +94,7 @@
             deleteButton.addEventListener("click", function() {
               console.log(this.id);
               //Send delete request
-              fetch("http://127.0.0.1:3000/api/todos/" + this.id, {
+              fetch("api/todos/" + this.id, {
                 method: "DELETE"
               });
               // Refresh page
@@ -114,7 +115,7 @@
       let todoList = document.getElementById("todoList");
 
       function fetchJson() {
-        fetch("http://127.0.0.1:3000/api/todos")
+        fetch("api/todos")
           .then(response => response.json())
           .then(resJson => console.log(resJson));
       }
@@ -122,12 +123,12 @@
       testBtn.addEventListener("click", function() {
         let titleField = document.getElementById("titleField").value;
         let contentField = document.getElementById("contentField").value;
-
+        console.log(titleField, contentField);
         //complete this if statement
         if (titleField == "") {
           console.log("null");
         } else {
-          fetch("http://127.0.0.1:3000/api/todos", {
+          fetch("api/todos", {
             method: "POST",
             headers: {
               Accept: "application/json, text/plain, */*",
