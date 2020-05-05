@@ -1,3 +1,14 @@
+/*
+
+Setup of a Node.js server with Express.
+Routes are included in ./api/routes.js
+
+Filename: server.js
+Author: Adrian Palomares
+Date: May 5, 2020
+
+*/
+
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
@@ -5,8 +16,6 @@ var mongoose = require("mongoose");
 var cors = require("cors");
 var path = require("path");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
 app.use(express.json());
 app.use(cors());
 

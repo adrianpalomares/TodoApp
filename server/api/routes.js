@@ -1,3 +1,12 @@
+/*
+
+Routes for an express server
+
+Filename: routes.js
+Author: Adrian Palomares
+Date: May 5, 2020
+*/
+
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -7,7 +16,7 @@ const router = express.Router();
 // Setting mongoose url
 const mongooseUrl = process.env.MONGODB_URL || "mongodb://localhost:27017/todoapp";
 
-mongoose.connect(mongooseUrl, { urlNewParser: true });
+mongoose.connect(mongooseUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
 //Todo Schema
 const Todo = mongoose.model("todos", {
@@ -41,12 +50,11 @@ router.get("/api/todos/:id", function(request, response) {
 router.post("/api/todos", function(request, response) {
   let title = request.body.title;
   let content = request.body.content;
-  Todo.create({ title: title, content: content }, function(err) {
+  Todo.create({ title: title, content: content }, function(err, todo) {
     if (err) {
       console.log(err);
     } else {
-      console.log(request.body);
-      response.status(200).send(request.body);
+      response.status(200).send(todo);
     }
   });
 });
@@ -67,7 +75,7 @@ router.put("/api/todos/:id", function(request, response) {
       if (err) {
         console.log(err);
       }
-      response.send("Sucess");
+      response.send(todo);
     });
   });
 });
@@ -75,11 +83,11 @@ router.put("/api/todos/:id", function(request, response) {
 //DELETE
 router.delete("/api/todos/:id", function(request, response) {
   let id = request.params.id;
-  Todo.deleteOne({ _id: id }, function(err) {
+  Todo.findOneAndRemove({ _id: id }, function(err, todo) {
     if (err) {
       console.log(err);
     } else {
-      response.sendStatus(200);
+      response.send(todo);
     }
   });
 });
