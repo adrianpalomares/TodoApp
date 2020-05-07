@@ -23,15 +23,11 @@ app.use(cors());
 const routes = require("./api/routes");
 app.use(routes);
 
-//Edit page
-app.get("/edit/:id", function(request, response) {
-  response.sendFile(path.join(__dirname + "/../client/edit.html"));
-});
-
-// Main page
-app.get("/", function(request, response) {
-  response.sendFile(path.join(__dirname + "/../client/main.html"));
-});
+// Serve Vue app
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, "../client/dist/")))
+	app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "../client/dist/index.html")));
+} 
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
