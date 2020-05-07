@@ -4,8 +4,14 @@
       <input class="form-control" type="text" placeholder="Enter todo" v-model="addTitleInput" @keyup.enter="addTodo"/>
       <ul class="list-group">
         <li class="list-group-item" v-for="t in arrayOfTodos" v-bind:todo-id="t._id" v-bind:key="t._id">
-          {{t.title}}
-          <button class="btn btn-danger" style="float:right;" @click="deleteTodo(t)">Delete</button>
+          <span v-if="!t.isEditable">
+            <span @click="setEditable(t)">{{t.title}}</span>
+            <button class="btn btn-danger" style="float:right;" @click="deleteTodo(t)">Delete</button>
+          </span>
+          <span v-else>
+            <input type="text"  v-bind:value="t.title" @keyup.enter="editTodo($event, t)"/>
+            <button class="btn btn-success" style="float:right;" @click="editTodoButton($event, t)">Save</button>
+          </span>
         </li>
       </ul>
     </div>
@@ -23,10 +29,13 @@ export default {
     return {
       arrayOfTodos: [],
       addTitleInput: "",
-      addContentInput: ""
+      addContentInput: "",
     }
   },
   methods: {
+    /*
+        For development purposes.
+    */
     printValue: function() {
       console.log(this.addTitleInput, this.addContentInput);
     },
@@ -54,12 +63,61 @@ export default {
         headers: {
           'Content-Type': "application/json"
         }
-      }).then(res => {
-        this.arrayOfTodos.splice(this.arrayOfTodos.indexOf(res), 1)
+      }).then(() => {
+        t.isRemoved = true;
+        this.arrayOfTodos = this.arrayOfTodos.filter(function(todo) {
+          return !todo.isRemoved;
+        })
       }).catch(err => console.log(err));
       
+    },
+    setEditable: function(t) {
+      this.arrayOfTodos[this.arrayOfTodos.indexOf(t)].isEditable = true;
+      this.$forceUpdate();
+    },
+    // Submitting edit through ENTER keypress
+    editTodo: function(event, t) {
+      // Grabbing the current title
+      const todoTitle = event.currentTarget.value;
+      axios({
+        method: "PUT",
+        url: `api/todos/${t._id}`,
+        headers: {
+          'Content-Type': "application/json"
+        },
+        data: {
+          title: todoTitle
+        }
+      }).then(() => {
+        t.title = todoTitle;
+        t.isEditable = false;
+        this.$forceUpdate();
+      }).catch(err => console.log(err));
+    },
+    editTodoButton: function(event, t) {
+      const todoTitle = event.currentTarget.previousSibling.value;
+      //Send info to api
+      axios({
+        method: "PUT",
+        url: `api/todos/${t._id}`,
+        headers: {
+          'Content-Type': "application/json"
+        },
+        data: {
+          title: todoTitle
+        }
+      }).then(() => {
+        t.title = todoTitle;
+        t.isEditable = false;
+        this.$forceUpdate();
+      }).catch(err => {
+        console.log(err);
+      }) 
     }
   },
+  /*
+    This function will load the todos
+  */
   created: async function() {
     const response = await axios('api/todos');
     this.arrayOfTodos = response.data;
