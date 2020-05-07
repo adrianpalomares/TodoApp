@@ -61,8 +61,6 @@ router.post("/api/todos", function(request, response) {
 
 //PUT
 router.put("/api/todos/:id", function(request, response) {
-  console.log(request.body.title);
-  console.log(request.body.content);
   Todo.findById(request.params.id, function(err, todo) {
     if (err) {
       console.log(err);
