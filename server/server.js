@@ -15,7 +15,24 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var cors = require("cors");
 var path = require("path");
+const session = require("express-session");
+const redis = require("redis");
+const redisStore = require("connect-redis")(session);
+const redisClient = redis.createClient();
 
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: false,
+        store: new redisStore({
+            host: "localhost",
+            port: 6379,
+            client: redisClient,
+        }),
+        // cookie: { secure: true },
+    })
+);
 app.use(express.json());
 app.use(cors());
 
