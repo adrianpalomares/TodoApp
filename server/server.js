@@ -53,6 +53,9 @@ app.use(todoRoutes);
 const userRoutes = require("./routes/userRoutes");
 app.use(userRoutes);
 
+const authenticationRoutes = require("./routes/authenticationRoutes");
+app.use(authenticationRoutes);
+
 // Serve Vue app
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist/")));
