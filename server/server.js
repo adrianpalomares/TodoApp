@@ -20,6 +20,16 @@ const redis = require("redis");
 const redisStore = require("connect-redis")(session);
 const redisClient = redis.createClient();
 
+// Setting mongoose url
+const mongooseUrl =
+    process.env.MONGODB_URL || "mongodb://localhost:27017/todoapp";
+
+mongoose.connect(mongooseUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+});
+
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
@@ -37,8 +47,8 @@ app.use(express.json());
 app.use(cors());
 
 // Setup router
-const routes = require("./api/routes");
-app.use(routes);
+const todoRoutes = require("./routes/todoRoutes");
+app.use(todoRoutes);
 
 // Serve Vue app
 if (process.env.NODE_ENV === "production") {
