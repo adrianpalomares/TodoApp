@@ -9,6 +9,7 @@ Date: May 5, 2020
 
 const express = require("express");
 const mongoose = require("mongoose");
+const Todo = require("../models/todoModel");
 
 // Setting up router
 const router = express.Router();
@@ -21,12 +22,6 @@ mongoose.connect(mongooseUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-});
-
-//Todo Schema
-const Todo = mongoose.model("todos", {
-    title: String,
-    content: String,
 });
 
 //GET
