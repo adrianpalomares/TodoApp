@@ -50,6 +50,9 @@ app.use(cors());
 const todoRoutes = require("./routes/todoRoutes");
 app.use(todoRoutes);
 
+const userRoutes = require("./routes/userRoutes");
+app.use(userRoutes);
+
 // Serve Vue app
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist/")));
