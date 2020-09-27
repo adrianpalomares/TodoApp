@@ -28,7 +28,6 @@
 </template>
 <script>
 import axios from "axios";
-// TODO: Add a redirect over to dashboard when user finishes loggging in
 // TODO: Have a check when view loads, (is user logged in?)
 export default {
   name: "Login",
@@ -53,7 +52,7 @@ export default {
       }).then((res) => {
         console.log(res);
         localStorage.setItem("user", JSON.stringify(res.data.user));
-        this.$router.push("/");
+        this.$router.push("/dashboard");
       });
     },
   },
