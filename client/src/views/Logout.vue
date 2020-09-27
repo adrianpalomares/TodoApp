@@ -9,7 +9,7 @@ export default {
         axios({
             method: "POST",
             url: "/api/auth/logout",
-        }).then(() => console.log("Logged out"));
+        }).then(() => this.$router.push("/login"));
     },
 };
 </script>
