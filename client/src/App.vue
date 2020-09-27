@@ -2,6 +2,7 @@
   <div id="app">
     <nav class="nav">
       <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+      <router-link to="/profile" class="nav-link">Profile</router-link>
       <router-link to="/logout" class="nav-link">Logout</router-link>
     </nav>
     <router-view />
