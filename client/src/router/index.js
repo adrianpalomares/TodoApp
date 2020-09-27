@@ -3,12 +3,13 @@ import VueRouter from "vue-router";
 import Dashboard from "../views/Dashboard";
 import Login from "../views/Login";
 import Logout from "../views/Logout";
+import Home from "../views/Home";
 
 Vue.use(VueRouter);
 
 const routes = [
     {
-        path: "/",
+        path: "/dashboard",
         name: "Dashboard",
         component: Dashboard,
     },
@@ -21,6 +22,11 @@ const routes = [
         path: "/logout",
         name: "Logout",
         component: Logout,
+    },
+    {
+        path: "/",
+        name: "Home",
+        component: Home,
     },
 ];
 
