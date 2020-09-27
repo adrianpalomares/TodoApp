@@ -2,9 +2,17 @@ const Todo = require("../models/todoModel");
 
 exports.todoList = async (request, response) => {
     try {
-        const todos = await Todo.find();
+        console.log(request.query);
+        // Instantiating todos variable
+        let todos = null;
+        if (request.query.user) {
+            todos = await Todo.find({ user: request.query.user });
+        } else {
+            todos = await Todo.find();
+        }
         response.status(200).json(todos);
     } catch (err) {
+        console.log(err);
         response.status(400).json(err);
     }
 };
