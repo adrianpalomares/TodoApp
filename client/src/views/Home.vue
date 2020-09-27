@@ -8,3 +8,13 @@
     <a class="btn btn-primary btn-lg" href="#" role="button">Register</a>
   </div>
 </template>
+<script>
+export default {
+  name: "Home",
+  created: function () {
+    if (localStorage.getItem("user") != null) {
+      this.$router.push("/dashboard");
+    }
+  },
+};
+</script>
