@@ -4,8 +4,13 @@
     <p class="lead">This is a simple todo app.</p>
     <hr class="my-4" />
     <p>Built with Node.js, Vue.js, Express, and MongoDB.</p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Login</a>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Register</a>
+    <router-link class="btn btn-primary btn-lg" to="/login" role="button"
+      >Login</router-link
+    >
+    <!-- TODO: Add a register view -->
+    <router-link class="btn btn-primary btn-lg" to="/register" role="button"
+      >Register</router-link
+    >
   </div>
 </template>
 <script>
