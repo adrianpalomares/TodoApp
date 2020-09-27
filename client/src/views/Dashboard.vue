@@ -67,23 +67,30 @@ export default {
             console.log(this.addTitleInput, this.addContentInput);
         },
         addTodo: function() {
-            const title = this.addTitleInput;
-            axios({
-                method: "POST",
-                url: "api/todos",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    title: title,
-                },
-            })
-                .then((res) => {
-                    this.arrayOfTodos.push(res.data);
+            if (localStorage.getItem("user") != null) {
+                const title = this.addTitleInput;
+                // Grabbing user data from localStorage
+                const user = JSON.parse(localStorage.getItem("user"));
+                axios({
+                    method: "POST",
+                    url: "api/todos",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    data: {
+                        title: title,
+                        user: user._id,
+                    },
                 })
-                .catch((err) => console.log(err));
-            // Clear the input
-            this.addTitleInput = "";
+                    .then((res) => {
+                        this.arrayOfTodos.push(res.data);
+                    })
+                    .catch((err) => console.log(err));
+                // Clear the input
+                this.addTitleInput = "";
+            } else {
+                this.$router.push("/login");
+            }
         },
         deleteTodo: function(t) {
             axios({
@@ -155,8 +162,11 @@ export default {
     This function will load the todos
   */
     created: async function() {
-        const response = await axios("api/todos");
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user);
+        const response = await axios(`api/todos?user=${user._id}`);
         this.arrayOfTodos = response.data;
+        console.log(localStorage.getItem("user"));
     },
 };
 </script>
