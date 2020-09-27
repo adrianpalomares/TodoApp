@@ -4,6 +4,7 @@ const TodoSchema = mongoose.Schema(
     {
         title: String,
         content: String,
+        user: { type: mongoose.Schema.Types.ObjectId },
     },
     { timestamps: true }
 );

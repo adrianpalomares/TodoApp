@@ -23,6 +23,7 @@ exports.todoCreate = async (request, response) => {
         const todo = await Todo.create({
             title: request.body.title,
             content: request.body.content,
+            user: request.body.user,
         });
         response.status(200).json(todo);
     } catch (err) {
