@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div id="banner">
+      <span id="banner-text">TODO APP</span>
+    </div>
     <nav class="nav">
       <router-link
         v-if="localStorage.getItem('user') != null"
@@ -34,3 +37,17 @@ export default {
   },
 };
 </script>
+<style scoped>
+#banner {
+  width: 100%;
+  background-color: black;
+  height: 100px;
+  margin-bottom: 30px;
+}
+#banner-text {
+  color: white;
+  font-size: 50px;
+  font-family: "Permanent Marker", cursive;
+  /* margin-top: 100px; */
+}
+</style>
