@@ -17,7 +17,17 @@ var cors = require("cors");
 var path = require("path");
 const session = require("express-session");
 const redisStore = require("connect-redis")(session);
-const redis = require("redis").createClient();
+
+// Getting url from RedisToGo
+// null if not provided
+const rtg =
+    process.env.REDISTOGO_URL != undefined ? process.env.REDISTOGO_URL : null;
+
+// Depending if RedisToGo is available
+const redis =
+    rtg != null
+        ? require("redis").createClient(rtg.port, rtg.hostname)
+        : require("redis").createClient();
 
 // Setting mongoose url
 const mongooseUrl =
@@ -35,8 +45,8 @@ app.use(
         resave: false,
         saveUninitialized: false,
         store: new redisStore({
-            host: "localhost",
-            port: 6379,
+            host: rtg != null ? rtg.hostname : "localhost",
+            port: rtg != null ? rtg.port : 6379,
             client: redis,
         }),
         // cookie: { secure: true },
