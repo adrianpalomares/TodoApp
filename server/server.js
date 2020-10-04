@@ -27,13 +27,13 @@ const rtg =
 console.log(rtg.port, rtg.hostname);
 console.log(process.env.REDISTOGO_URL);
 
-if (rtg != null) redis.auth(rtg.auth.split(":")[1]);
-
 // Depending if RedisToGo is available
 const redis =
     rtg != null
         ? require("redis").createClient(rtg.port, rtg.hostname)
         : require("redis").createClient();
+
+if (rtg != null) redis.auth(rtg.auth.split(":")[1]);
 
 // Setting mongoose url
 const mongooseUrl =
