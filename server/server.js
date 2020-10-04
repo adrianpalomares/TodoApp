@@ -16,9 +16,8 @@ var mongoose = require("mongoose");
 var cors = require("cors");
 var path = require("path");
 const session = require("express-session");
-const redis = require("redis");
 const redisStore = require("connect-redis")(session);
-const redisClient = redis.createClient();
+const redis = require("redis").createClient();
 
 // Setting mongoose url
 const mongooseUrl =
@@ -38,7 +37,7 @@ app.use(
         store: new redisStore({
             host: "localhost",
             port: 6379,
-            client: redisClient,
+            client: redis,
         }),
         // cookie: { secure: true },
     })
