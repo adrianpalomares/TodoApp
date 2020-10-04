@@ -21,7 +21,9 @@ const redisStore = require("connect-redis")(session);
 // Getting url from RedisToGo
 // null if not provided
 const rtg =
-    process.env.REDISTOGO_URL != undefined ? process.env.REDISTOGO_URL : null;
+    process.env.REDISTOGO_URL != undefined
+        ? require("url").parse(process.env.REDISTOGO_URL)
+        : null;
 console.log(rtg.port, rtg.hostname);
 console.log(process.env.REDISTOGO_URL);
 
