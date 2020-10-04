@@ -5,3 +5,5 @@ mockups
 #node modules
 node_modules
 
+# Client files
+client/dist
