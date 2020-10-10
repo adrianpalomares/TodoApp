@@ -1,3 +1,5 @@
+// TODO: Make sure a cookie is set when user registers
+
 <template>
   <div class="container">
     <h1>Register</h1>
