@@ -27,7 +27,10 @@ exports.userCreate = async (request, response) => {
         });
         response.status(200).json(user);
     } catch (err) {
-        response.status(400).json(err);
+        // If the username is already taken
+        err.keyValue.username
+            ? response.status(409).json(err)
+            : response.status(400).json(err);
     }
 };
 
