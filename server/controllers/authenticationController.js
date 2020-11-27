@@ -9,9 +9,9 @@ exports.login = async (request, response) => {
             request.session.user = user;
             response.json({ message: "User is logged in.", user: user });
         } else if (user.password != request.body.password) {
-            response.json({ message: "Wrong password" });
+            response.status(401).json({ message: "Wrong password" });
         } else {
-            response.json({ message: "Username doesn't exist." });
+            response.status(401).json({ message: "Username doesn't exist." });
         }
     } catch (err) {
         response.status(400).json(err);

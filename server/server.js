@@ -17,6 +17,8 @@ var cors = require("cors");
 var path = require("path");
 const session = require("express-session");
 const redisStore = require("connect-redis")(session);
+// Config file
+const config = require("./_config");
 
 // Getting url from RedisToGo
 // null if not provided
@@ -34,8 +36,7 @@ const redis =
 if (rtg != null) redis.auth(rtg.auth.split(":")[1]);
 
 // Setting mongoose url
-const mongooseUrl =
-    process.env.MONGODB_URL || "mongodb://localhost:27017/todoapp";
+const mongooseUrl = config.mongoURI[process.env.NODE_ENV];
 
 mongoose.connect(mongooseUrl, {
     useNewUrlParser: true,
@@ -77,7 +78,4 @@ if (process.env.NODE_ENV === "production") {
     );
 }
 
-var port = process.env.PORT || 3000;
-app.listen(port, function () {
-    console.log(`Listening on port: ${port}`);
-});
+module.exports = app;

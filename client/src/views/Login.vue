@@ -23,6 +23,10 @@
         />
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
+      <!-- Error message -->
+      <p v-if="errorMessage" class="mt-4" style="color: red">
+        Invalid username/password
+      </p>
     </form>
   </div>
 </template>
@@ -35,6 +39,7 @@ export default {
     return {
       username: "",
       password: "",
+      errorMessage: false,
     };
   },
   methods: {
@@ -49,11 +54,17 @@ export default {
           username: this.username,
           password: this.password,
         },
-      }).then((res) => {
-        console.log(res);
-        localStorage.setItem("user", JSON.stringify(res.data.user));
-        this.$router.push("/dashboard");
-      });
+      })
+        .then((res) => {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          this.$router.push("/dashboard");
+        })
+        .catch((err) => {
+          if (err.response.status == 401) {
+            console.log(this.errorMessage);
+            this.errorMessage = true;
+          }
+        });
     },
   },
 };
